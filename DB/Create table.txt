@@ -1,0 +1,52 @@
+create database library;
+
+use library;
+
+create Table User	-- 使用者
+(
+UserId	 			char(20) NOT NULL, -- 使用者 ID 唯一值，用來資料庫關聯用
+PhoneNumber 			char(10) NOT NULL, -- 手機 註冊時須檢查不可重複。為登入帳號識別用
+Password 			char(100), -- 密碼 請加鹽(salt)並經雜湊(Hash)後儲存，避免明碼外洩
+UserName 			char(20), -- 使用者名稱
+RegistrationTime 		DATETIME, -- 註冊日期時間
+LastLoginTime 			DATETIME, -- 最後登入時間
+Primary Key(UserId)
+);
+-- ………… 其他欄位
+
+Create Table Inventory -- 庫存
+(
+InventoryId		 	char(10) NOT NULL, -- 庫存 ID 唯一值
+ISBN 				char(12), -- 國際標準書號
+StoreTime 			DATETIME, -- 書籍入庫(購買)日期時間
+Status 				char(10), -- 書籍狀態 在庫I、出借中B、整理中(歸還後未入庫)U、遺失M、損毀D、廢棄DD
+Primary Key(InventoryId)
+);
+-- ………… 其他欄位
+
+Create Table Book 	-- 書籍
+(
+ISBN	 			char(12) NOT NULL, -- 國際標準書號
+Name 				char(100), -- 書名
+Author 				char(20), -- 作者
+Introduction 			varchar(100), -- 書籍內容簡介
+Primary Key(ISBN)
+);
+-- ………… 其他欄位
+
+Create Table BorrowingRecord -- 借閱紀錄
+(
+UserId			 	char(20),-- 使用者 ID
+InventoryId 			char(10),-- 庫存 ID
+BorrowingTime 			DATETIME,-- 借出日期時間
+ReturnTime	 		DATETIME -- 歸還日期時間
+);
+
+-- INDEX
+Create Index IU on BorrowingRecord (UserId, InventoryId);
+-- ………… 其他欄位
+
+
+
+
+

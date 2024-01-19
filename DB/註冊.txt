@@ -1,0 +1,16 @@
+DELIMITER //
+CREATE PROCEDURE newuser (
+in Id	 			char(10),
+in Phone		 	char(10),
+in Password 			char(100),
+in UserName 			char(10),
+out nresult INT)
+BEGIN
+  if exists (select * from user where PhoneNumber = Phone or userid = id) then
+     set nresult = -1;
+  else
+    INSERT INTO user values (UserId,Phone,password(Password),UserName,now(),null);
+	set nresult = 0;
+  end if;
+END //
+DELIMITER ;
